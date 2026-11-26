@@ -1,6 +1,27 @@
-# 14th-DukMate-FE
+# 덕질메이트 - Frontend
 
-덕질메이트 프론트엔드 (React Native + Expo, TypeScript, Expo Router)
+> 덕질과 일상을 함께 지키는 덕질비 관리 앱
+
+2026-2 코테이토(Cotato) 14기 프로젝트 **덕질메이트**의 프론트엔드 저장소입니다.
+
+## 프로젝트 소개
+
+덕질은 줄이지 않고, 생활은 지키는 대학생 덕질러의 덕질비 관리 메이트입니다.
+
+- **한 달력에서 보는 돈** — 덕질 지출과 생활비 지출을 한 화면에서 보고, 돈 나갈 날을 미리 확인합니다.
+- **나만의 소비 패턴** — 덕질비가 어디에, 얼마나 빨리 쓰이는지 숫자와 그림으로 한눈에 보여 줍니다.
+- **후회 없는 굿즈 선택** — 예산 안에서 무엇을 살지, 나만의 선택 기준을 학습한 AI와 함께 고릅니다.
+
+## 기술 스택
+
+| 분류 | 기술 |
+| --- | --- |
+| 프레임워크 | React Native, Expo |
+| 언어 | TypeScript |
+| 라우팅 | Expo Router |
+| 상태 관리 | TanStack Query (서버 상태), Zustand (전역 상태) |
+| OCR | Google ML Kit (기기 내 처리) |
+| 코드 품질 | ESLint, Prettier, GitHub Actions CI |
 
 ## 실행 방법
 
@@ -18,6 +39,8 @@
    npx expo start
    ```
 
+> ⚠️ Google ML Kit(OCR)는 네이티브 모듈이라 Expo Go에서 동작하지 않습니다. ML Kit를 추가한 뒤부터는 Expo Go 대신 개발 빌드(development build)로 실행합니다. 방법은 그때 이 문서에 추가합니다.
+
 ## 스크립트
 
 | 명령 | 설명 |
@@ -32,10 +55,27 @@
 
 ```
 src/
-  app/    # 화면과 _layout 파일만 둡니다 (Expo Router: 파일 하나 = 화면 하나)
+├── app/                # 화면(라우트)과 _layout 파일만 둡니다 (Expo Router: 파일 하나 = 화면 하나)
+│   ├── (auth)/         # 로그인
+│   ├── (onboarding)/   # 덕후 자기소개서 · 최애 선택 · 예산 설정
+│   └── (tabs)/         # 하단 탭: 홈 · 통계 · 위시 · 마이
+├── features/           # 기능별 코드 (화면에 들어가는 컴포넌트 · 훅 · API 호출)
+│   ├── ledger/         # MVP01 통합 가계부: 달력 홈, 지출 입력(OCR · 문자 · 직접), 일정
+│   ├── goods/          # MVP02 굿즈 선택 도우미: 위시 보석함, 덕질 도감, 굿즈 월드컵, AI 상담
+│   ├── stats/          # MVP03 소비 통계 · 결산
+│   └── account/        # 로그인 · 온보딩 · 마이페이지
+├── components/         # 여러 기능에서 함께 쓰는 공통 UI (버튼, 모달, 헤더 등)
+├── theme/              # 디자인 토큰: 컬러 · 타이포그래피 · 간격
+├── stores/             # Zustand 전역 상태 (예: 생활비/덕질비 토글)
+├── api/                # API 클라이언트, TanStack Query 설정
+├── types/              # 여러 기능에서 쓰는 공통 타입
+└── utils/              # 금액 포맷 등 순수 함수
 ```
 
-컴포넌트·훅·API 코드 등은 `src/app` 밖(`src/components`, `src/hooks` 등)에 둡니다.
+- `src/app`의 화면 파일은 `features/`의 컴포넌트를 가져와 배치만 합니다. 로직은 `features/`에 둡니다.
+- `features/<기능>/` 안에는 필요할 때 `components/`, `hooks/`, `api/`를 만듭니다.
+- 한 기능에서만 쓰는 코드는 그 기능 폴더에, 두 기능 이상에서 쓰게 되면 공통 폴더(`components/`, `utils/` 등)로 옮깁니다.
+- 화면 색상 · 글꼴 크기는 직접 값을 쓰지 않고 `theme/`의 토큰을 씁니다.
 
 ## 코드 컨벤션
 
