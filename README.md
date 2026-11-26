@@ -37,13 +37,51 @@ src/
 
 컴포넌트·훅·API 코드 등은 `src/app` 밖(`src/components`, `src/hooks` 등)에 둡니다.
 
-## 브랜치·커밋 규칙
+## 코드 컨벤션
 
-- 기본 브랜치는 `develop`입니다. 작업은 `develop`에서 브랜치를 따서 PR로 합칩니다.
-- 브랜치 이름: `feat/기능명`, `fix/버그명`, `chore/작업명`
-- 커밋 메시지: `feat: 달력 홈 화면 추가`, `fix: 예산 입력 오류 수정`, `chore: 패키지 업데이트`
-- PR은 CI(lint, typecheck)를 통과해야 머지할 수 있습니다.
-- 코드 리뷰봇(CodeRabbit)은 PR에 `@coderabbitai review` 댓글을 달면 리뷰합니다.
+포맷(따옴표, 세미콜론, 줄바꿈 등)은 Prettier가 정하므로 따로 신경 쓰지 않습니다. 저장 시 자동 정리되도록 에디터의 Prettier 확장을 켜 두는 것을 권장합니다.
+
+| 대상 | 규칙 | 예시 |
+| --- | --- | --- |
+| 파일·폴더 이름 | kebab-case | `calendar-day.tsx`, `use-budget.ts` |
+| 컴포넌트 | PascalCase | `CalendarDay`, `BudgetCard` |
+| 훅 | `use`로 시작하는 camelCase | `useBudget` |
+| 함수·변수 | camelCase | `formatPrice`, `totalSpent` |
+| 상수 | UPPER_SNAKE_CASE | `MAX_BUDGET` |
+| 타입·인터페이스 | PascalCase | `Expense`, `GoodsItem` |
+
+## 브랜치 전략
+
+- `main`: 데모·배포용 안정 브랜치
+- `develop`: 개발 통합 브랜치 (기본 브랜치)
+- 작업 브랜치: `develop`에서 `타입/기능명`으로 따서 PR로 합칩니다. 예) `feat/calendar-home`, `fix/budget-input`
+
+## 커밋 컨벤션
+
+형식: `타입: 제목` (본문은 필요할 때만)
+
+| 타입 | 사용 상황 | 예시 |
+| --- | --- | --- |
+| feat | 새로운 기능 추가·수정 | `feat: 달력 홈 화면 구현` |
+| fix | 버그 수정 | `fix: 예산 입력 시 음수 허용 문제 수정` |
+| refactor | 기능 변화 없는 코드 개선 | `refactor: 지출 목록 컴포넌트 분리` |
+| design | UI 스타일·레이아웃 수정 | `design: 홈 카드 여백 조정` |
+| chore | 설정·패키지·빌드 작업 | `chore: 차트 라이브러리 추가` |
+| docs | 문서 수정 | `docs: README 실행 방법 추가` |
+| test | 테스트 추가·수정 | `test: 금액 포맷 함수 테스트 추가` |
+
+브랜치 이름의 타입도 위 표와 같은 것을 씁니다.
+
+## PR 및 코드 리뷰 규칙
+
+- PR 제목은 커밋과 같은 `타입: 작업 내용` 형식으로 씁니다.
+- PR 본문은 템플릿(`.github/pull_request_template.md`)이 자동으로 채워집니다.
+- CI(lint, typecheck)를 통과하고, 프론트엔드 파트원 1명 이상이 승인해야 머지할 수 있습니다.
+- 리뷰 코멘트에는 중요도를 붙입니다.
+  - **P1**: 반드시 반영 (머지 전 해결)
+  - **P2**: 적극적으로 고려·논의
+  - **P3**: 가벼운 의견, 사소한 제안
+- 코드 리뷰봇(CodeRabbit)은 PR에 `@coderabbitai review` 댓글을 달면 리뷰합니다. 리뷰봇 코멘트는 참고용이며 머지 조건이 아닙니다.
 
 ## 환경변수 주의
 
